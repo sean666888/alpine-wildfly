@@ -14,7 +14,7 @@ ADD ./target/application.war /opt/jboss/wildfly/standalone/deployments/applicati
 Build and run the application container:
 ~~~~
 docker build -t application .
-docker run -it --rm -name myapp application
+docker run -it --rm application
 ~~~~
 
 Configuration
@@ -25,7 +25,7 @@ The default Web profile requires no configuration.
 
 Start Wildfly with the Full profile: 
 ~~~~
-docker run -it --rm -e STANDALONE=standalone-full -name myapp application  
+docker run -it --rm -e STANDALONE=standalone-full application  
 ~~~~
 
 Add a custom configuration file to your Dockerfile:
@@ -35,5 +35,5 @@ ADD ./standalone-custom.xml /opt/jboss/wildfly/standalone/configuration/standalo
 
 Wildfly also comes with a [High Availability](https://docs.jboss.org/author/display/WFLY10/High+Availability+Guide) configuration.
 ~~~~
-docker run -it --rm -e STANDALONE=standalone-full-ha -name myapp application  
+docker run -it --rm -e STANDALONE=standalone-full-ha application  
 ~~~~
