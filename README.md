@@ -1,37 +1,39 @@
 alpine-wildfly
 ==============
-Docker image for running Java EE applications in [Wildfly](http://www.wildfly.org/). Based on Alpine Linux and OpenJDK.
+Docker image for running Java EE applications in [Wildfly](http://www.wildfly.org/). Based on Alpine Linux and OpenJDK. Use this image as base image for you application image.
 
 Usage
 --------
-To run your application in the Docker image, either extend the Docker image or link your application into the Docker container.
 
-Create a Dockerfile in your Java EE project directory: 
+Create a Dockerfile in your project root:
 ~~~~
-FROM njmittet/alpine-wildfly:latest
-ADD ./target/myproject.war /opt/jboss/wildfly/standalone/deployments/myproject.war
+FROM njmittet/alpine-wildfly:10.0.0.Final
+ADD ./target/application.war /opt/jboss/wildfly/standalone/deployments/application.war
 ~~~~
 
-Link the WAR-file: 
+Build and run the application container:
 ~~~~
-docker run -d njmittet/alpine-wildfly:latest -v ./target/myproject.war:/opt/jboss/wildfly/standalone/deployments/myproject.war
+docker build -t application .
+docker run -it --rm -name myapp application
 ~~~~
 
 Configuration
 -------------
-[Start Wildfly](https://docs.jboss.org/author/display/WFLY10/Getting+Started+Guide#GettingStartedGuid0e-StartingWildFly10) with the Web profile (default), the Full profile, or a custom profile. 
+[Start Wildfly](https://docs.jboss.org/author/display/WFLY10/Getting+Started+Guide#GettingStartedGuid0e-StartingWildFly10) with different configurations.
 
-While the Web profile is the default configuration, do the following to use the Full, or a custom profile:
+The default Web profile requires no configuration.
 
-Full profile:
+Start Wildfly with the Full profile: 
 ~~~~
-docker run -d njmittet/alpine-wildfly:latest -e STANDALONE=standalone-full  -v ./target/myproject.war:/opt/jboss/wildfly/standalone/deployments/myproject.war
-~~~~
-
-Custom configuration:
-~~~~
-docker run -d njmittet/alpine-wildfly:latest -v ./standalone-custom.xml::/opt/jboss/wildfly/standalone/configuration/standalone.xml  -v ./target/myproject.war:/opt/jboss/wildfly/standalone/deployments/myproject.war
+docker run -it --rm -e STANDALONE=standalone-full -name myapp application  
 ~~~~
 
-If linking files is not prefered, see the [Dockerfile Reference](https://docs.docker.com/engine/reference/builder/) for how to add the configuration files to your own Docker image.
+Add a custom configuration file to your Dockerfile:
+~~~~
+ADD ./standalone-custom.xml /opt/jboss/wildfly/standalone/configuration/standalone.xml
+~~~~
+
 Wildfly also comes with a [High Availability](https://docs.jboss.org/author/display/WFLY10/High+Availability+Guide) configuration.
+~~~~
+docker run -it --rm -e STANDALONE=standalone-full-ha -name myapp application  
+~~~~
