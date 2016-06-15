@@ -2,6 +2,8 @@ alpine-wildfly
 ==============
 Docker image for running Java EE applications in [Wildfly](http://www.wildfly.org/). Based on Alpine Linux and OpenJDK. Use this image as base image for you application image.
 
+[Image on Docker Hub](https://hub.docker.com/r/njmittet/alpine-wildfly/).
+
 Usage
 --------
 
