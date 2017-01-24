@@ -9,7 +9,7 @@ Usage
 
 Create a Dockerfile in your project root:
 ~~~~
-FROM njmittet/alpine-wildfly:10.0.0.Final
+FROM njmittet/alpine-wildfly:10.1.0.Final
 ADD ./target/application.war /opt/jboss/wildfly/standalone/deployments/application.war
 ~~~~
 
